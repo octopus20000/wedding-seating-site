@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>婚禮現場後台入口</title>
+<style>
+  body { margin: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; background: #faf7f2; color: #2b2622; }
+  main { max-width: 520px; margin: 0 auto; padding: 48px 20px; text-align: center; }
+  h1 { font-size: 1.4rem; margin: 0 0 12px; }
+  p { line-height: 1.6; }
+  a.btn { display: inline-block; margin-top: 8px; padding: 12px 22px; border-radius: 8px; background: #8a5a3c; color: #fff; text-decoration: none; font-weight: 700; }
+  .small { color: #6f655c; font-size: .9rem; }
+  code { word-break: break-all; }
+</style>
+</head>
+<body>
+<main>
+  <h1>婚禮現場後台入口</h1>
+  <p id="msg">正在前往後台…</p>
+  <p><a class="btn" id="go" href="https://hispanic-implications-continent-plugin.trycloudflare.com">沒有自動跳轉？點這裡</a></p>
+  <p class="small">目前網址：<code id="cur">https://hispanic-implications-continent-plugin.trycloudflare.com</code></p>
+  <p class="small">網址更新於 2026/11/20 14:49:35。打不開請聯絡新郎重開通道。</p>
+</main>
+<script>
+(function () {
+  var ROUTES = {"":"/","seat":"/","cake":"/cake","gifts":"/gifts","share":"/share/9f2b796873f693b44873323b2970bfc2"};
+  var BASE = "https://hispanic-implications-continent-plugin.trycloudflare.com";
+  var h = location.hash.replace('#', '');
+  var p = Object.prototype.hasOwnProperty.call(ROUTES, h) ? ROUTES[h] : '/';
+  function go(base) {
+    var target = base + p;
+    document.getElementById('go').href = target;
+    document.getElementById('cur').textContent = base;
+    document.getElementById('msg').textContent = '正在前往 ' + target;
+    location.replace(target);
+  }
+  // GitHub Pages 會快取這頁幾分鐘；通道重開後網址會變，所以先抓一份不會被快取的 url.json（帶時間戳）
+  fetch('./url.json?t=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) { go(j && j.url ? j.url : BASE); })
+    .catch(function () { go(BASE); });
+})();
+</script>
+</body>
+</html>
